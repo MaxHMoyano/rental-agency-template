@@ -5,27 +5,31 @@ import { Navbar } from "@/components/navbar/Navbar";
 import ClientWrapper from "@/components/ClientWrapper";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ToasterProvider from "@/providers/ToasterProvider";
+import LoginModal from "@/components/modals/LoginModal";
+import getCurrentUserFromSession from "@/util/getCurrentUserFromSession";
 
 const font = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Rental Agency Template",
-  description:
-    "This application was created for educational purposes.",
+  description: "This application was created for educational purposes.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const currentUser = await getCurrentUserFromSession();
+
   return (
     <html lang="en">
       <body className={font.className}>
         <ClientWrapper>
           <ToasterProvider />
           <RegisterModal />
-          <Navbar />
+          <LoginModal />
+          <Navbar currentUser={currentUser} />
         </ClientWrapper>
         {children}
       </body>

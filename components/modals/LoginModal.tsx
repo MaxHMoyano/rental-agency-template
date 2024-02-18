@@ -1,15 +1,12 @@
 "use client";
 
-import axios from "axios";
 import * as z from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
-import { AiFillGithub } from "react-icons/ai";
 
-import { useRegisterModal } from "@/hooks/useRegisterModal";
+import { useLoginModal } from "@/hooks/useLoginModal";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import {
@@ -23,21 +20,25 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { AiFillGithub } from "react-icons/ai";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z.string().min(1, "Password is required"),
 });
 
-const RegisterModal = () => {
-  const registerModal = useRegisterModal();
+const LoginModal = () => {
+  const router = useRouter();
+
+  const loginModal = useLoginModal();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -46,11 +47,20 @@ const RegisterModal = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      await axios.post("/api/register", data);
-      registerModal.onClose();
+      const callBack = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+      if (callBack?.ok) {
+        toast.success("Logged in");
+        router.refresh();
+        loginModal.onClose();
+      }
+      if (callBack?.error) {
+        throw new Error(callBack?.error as string);
+      }
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
+      toast.error(`Error: ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -58,10 +68,10 @@ const RegisterModal = () => {
 
   return (
     <Modal
-      isOpen={registerModal.isOpen}
-      onClose={registerModal.onClose}
-      title="Welcome to Rental Agency"
-      description="Create an account"
+      isOpen={loginModal.isOpen}
+      onClose={loginModal.onClose}
+      title="Welcome back!"
+      description="Log in to your account"
     >
       <Form {...form}>
         <form
@@ -69,26 +79,6 @@ const RegisterModal = () => {
           autoComplete="off"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Your name</FormLabel>
-                <FormControl>
-                  <Input
-                    className={`${
-                      form.getFieldState("name").error &&
-                      "border-destructive outline-destructive focus-visible:ring-offset-rose-500 focus-visible:ring-0"
-                    }`}
-                    placeholder="rental.agency"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"
@@ -118,7 +108,7 @@ const RegisterModal = () => {
           <DialogFooter>
             <Button size={"lg"} disabled={isLoading} type="submit">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create User
+              Log in
             </Button>
           </DialogFooter>
         </form>
@@ -126,7 +116,8 @@ const RegisterModal = () => {
           <Button
             variant={"ghost"}
             size={"lg"}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               signIn("github");
             }}
           >
@@ -135,12 +126,12 @@ const RegisterModal = () => {
           </Button>
           <div>
             <p>
-              Already have an account?{" "}
+              Don&apos;t have an account?{" "}
               <span
                 className="text-primary cursor-pointer hover:underline"
-                onClick={registerModal.onClose}
+                onClick={loginModal.onClose}
               >
-                Log in
+                Sign up
               </span>
             </p>
           </div>
@@ -150,4 +141,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;
