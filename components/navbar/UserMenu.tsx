@@ -1,11 +1,14 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import Avatar from "./Avatar";
+import Avatar from "@/components/Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import { useRegisterModal } from "@/hooks/useRegisterModal";
 
 const UserMenu = () => {
+  const registerModal = useRegisterModal();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -29,7 +32,7 @@ const UserMenu = () => {
             <div className="flex flex-col cursor-pointer">
               <>
                 <MenuItem label="Login" onClick={() => {}} />
-                <MenuItem label="Sign up" onClick={() => {}} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
               </>
             </div>
           </div>
