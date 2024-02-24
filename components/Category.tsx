@@ -57,7 +57,7 @@ const Category = ({ label, selected, icon: Icon }: CategoryProps) => {
         transition
         min-w-[80px]
         ${selected ? "bg-primary" : "bg-transparent"}
-        ${selected ? "hover:bg-indigo-800" : "hover:hover:bg-accent"}
+        ${selected ? "hover:bg-indigo-800" : "hover:bg-accent"}
         ${selected ? "text-primary-foreground" : "text-neutral-600"}
         ${selected ? "font-bold" : "font-semibold"}
       `}

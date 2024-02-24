@@ -2,16 +2,15 @@
 
 import axios from "axios";
 import * as z from "zod";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { LuLoader2 } from "react-icons/lu";
 import { signIn } from "next-auth/react";
 import { AiFillGithub } from "react-icons/ai";
 
 import { useRegisterModal } from "@/hooks/useRegisterModal";
 import { Input } from "@/components/ui/input";
-import { Modal } from "@/components/ui/modal";
 import {
   Form,
   FormControl,
@@ -20,9 +19,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Modal } from "@/components/ui/modal";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoginModal } from "@/hooks/useLoginModal";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -32,6 +33,8 @@ const formSchema = z.object({
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,6 +45,11 @@ const RegisterModal = () => {
       password: "",
     },
   });
+
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -117,7 +125,7 @@ const RegisterModal = () => {
           />
           <DialogFooter>
             <Button size={"lg"} disabled={isLoading} type="submit">
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create User
             </Button>
           </DialogFooter>
@@ -138,7 +146,7 @@ const RegisterModal = () => {
               Already have an account?{" "}
               <span
                 className="text-primary cursor-pointer hover:underline"
-                onClick={registerModal.onClose}
+                onClick={toggle}
               >
                 Log in
               </span>

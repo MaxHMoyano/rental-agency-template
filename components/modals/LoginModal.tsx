@@ -1,8 +1,8 @@
 "use client";
 
 import * as z from "zod";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { useCallback, useState } from "react";
+import { LuLoader2 } from "react-icons/lu";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AiFillGithub } from "react-icons/ai";
+import { useRegisterModal } from "@/hooks/useRegisterModal";
 
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -33,8 +34,14 @@ const LoginModal = () => {
   const router = useRouter();
 
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -107,7 +114,7 @@ const LoginModal = () => {
           />
           <DialogFooter>
             <Button size={"lg"} disabled={isLoading} type="submit">
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />}
               Log in
             </Button>
           </DialogFooter>
@@ -129,7 +136,7 @@ const LoginModal = () => {
               Don&apos;t have an account?{" "}
               <span
                 className="text-primary cursor-pointer hover:underline"
-                onClick={loginModal.onClose}
+                onClick={toggle}
               >
                 Sign up
               </span>

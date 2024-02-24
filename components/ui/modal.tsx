@@ -1,5 +1,6 @@
 "use client";
 
+import { PropsWithChildren } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,10 +14,9 @@ interface ModalProps {
   description: string;
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   title,
   description,
   isOpen,
@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
   };
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent className="min-w-[90vw] md:min-w-[512px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
