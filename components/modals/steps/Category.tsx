@@ -16,16 +16,17 @@ const CategoryStep = ({ selected, onClick }: CategoryStepProps) => {
           Choose from the following:
         </span>
       </div>
-      <div className="space-y-2">
+      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 max-h-[50vh]">
         {CATEGORIES.map(({ label, icon: Icon, description }) => (
           <div
             key={label}
             onClick={() => onClick(label)}
-            className={`transition flex flex-row gap-3 hover:border-primary border-2 cursor-pointer rounded-md p-4
+            className={`transition flex flex-row gap-3 h-full hover:border-primary border-2 cursor-pointer rounded-md p-4
             ${selected === label ? "bg-primary" : ""}
             ${selected === label ? "text-primary-foreground" : "text-neutral-600"}
             ${selected === label ? "hover:bg-indigo-800" : "hover:hover:bg-accent"}
             ${selected === label ? "" : "hover:text-neutral-800"}
+            ${selected === label ? "border-primary" : "border-neutral-200"}
             `}
           >
             <Icon />

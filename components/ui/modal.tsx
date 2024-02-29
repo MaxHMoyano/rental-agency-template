@@ -35,6 +35,7 @@ export const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+        <hr />
         <div>{children}</div>
       </DialogContent>
     </Dialog>

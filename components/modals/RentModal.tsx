@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { LuArrowLeft, LuArrowRight, LuPlusCircle } from "react-icons/lu";
 import * as z from "zod";
@@ -18,6 +19,15 @@ import { useForm } from "react-hook-form";
 
 const formSchema = z.object({
   category: z.string().min(1),
+  location: z
+    .object({
+      label: z.string().min(1),
+      value: z.string().min(1),
+      flag: z.string().min(1),
+      latlng: z.array(z.number()).min(2).max(2),
+      region: z.string().min(1),
+    })
+    .optional(),
   guestCount: z.number(),
   roomCount: z.number(),
   bathroomCount: z.number(),
@@ -33,18 +43,14 @@ const RentModal = () => {
   const [step, setStep] = useState(STEPS.CATEGORY);
 
   const {
-    register,
-    handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors },
-    reset,
-    resetField,
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       category: "",
-      // location: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -57,6 +63,7 @@ const RentModal = () => {
 
   // const location = watch("location");
   const category = watch("category");
+  const location = watch("location");
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
@@ -73,6 +80,7 @@ const RentModal = () => {
   const onSubmit = () => {
     if (step !== STEPS.PRICE) {
       onNext();
+      console.log(getValues("location"));
     }
   };
 
@@ -95,7 +103,12 @@ const RentModal = () => {
           }}
         />
       )}
-      {step === STEPS.LOCATION && <LocationStep />}
+      {step === STEPS.LOCATION && (
+        <LocationStep
+          value={location}
+          onChange={(v) => setValue("location", v)}
+        />
+      )}
       {step === STEPS.INFORMATION && <InformationStep />}
       {step === STEPS.IMAGES && <ImagesStep />}
       {step === STEPS.DESCRIPTION && <DescriptionStep />}
@@ -103,6 +116,7 @@ const RentModal = () => {
       <div className="flex flex-row justify-between items-center mt-5">
         {step !== STEPS.CATEGORY && (
           <Button
+            type="button"
             variant={"secondary"}
             className="w-2/5 flex gap-1 items-center hover:bg-accent-foreground hover:text-accent"
             onClick={onPrevious}
@@ -112,9 +126,9 @@ const RentModal = () => {
         )}
         <Button
           className={`
-          w-2/5 flex items-center gap-1
-          ${step === STEPS.CATEGORY ? "flex-1" : ""}
-        `}
+            w-2/5 flex items-center gap-1
+            ${step === STEPS.CATEGORY ? "flex-1" : ""}
+          `}
           onClick={onSubmit}
         >
           {step === STEPS.PRICE ? (
