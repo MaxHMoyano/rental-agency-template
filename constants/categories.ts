@@ -1,11 +1,11 @@
 import { IconType } from "react-icons";
 import {
-  LuBuilding2,
-  LuTrees,
-  LuMountain,
-  LuPalmtree,
-  LuThermometerSnowflake,
-} from "react-icons/lu";
+  Building2,
+  Trees,
+  Mountain,
+  Palmtree,
+  ThermometerSnowflake,
+} from "lucide-react";
 
 export interface Category {
   label: string;
@@ -16,27 +16,27 @@ export interface Category {
 export const CATEGORIES = [
   {
     label: "Urban",
-    icon: LuBuilding2,
+    icon: Building2,
     description: "Around cities or towns.",
   },
   {
     label: "Forests",
-    icon: LuTrees,
+    icon: Trees,
     description: "Around forests and nature.",
   },
   {
     label: "Mountains",
-    icon: LuMountain,
+    icon: Mountain,
     description: "Around mountains.",
   },
   {
     label: "Beach",
-    icon: LuPalmtree,
+    icon: Palmtree,
     description: "Caribean style.",
   },
   {
     label: "Winter",
-    icon: LuThermometerSnowflake,
+    icon: ThermometerSnowflake,
     description: "To enjoy a coffe and skiing.",
   },
 ];

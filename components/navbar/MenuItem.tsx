@@ -1,10 +1,11 @@
 "use client";
 
+import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons";
 
 interface MenuItemProps {
   label: string;
-  icon?: IconType;
+  icon?: IconType | LucideIcon;
   onClick: () => void;
 }
 

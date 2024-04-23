@@ -4,9 +4,11 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Fragment } from "react";
 
 interface LocationStepProps {
   value?: FormattedCountry;
@@ -14,7 +16,7 @@ interface LocationStepProps {
 }
 
 const LocationStep = ({ value, onChange }: LocationStepProps) => {
-  const { countries, getByValue } = useCountries();
+  const { getAll, getByValue } = useCountries();
   return (
     <div className="flex flex-col gap-2">
       <div className="my-2">
@@ -23,13 +25,16 @@ const LocationStep = ({ value, onChange }: LocationStepProps) => {
         </h2>
       </div>
       <div>
-        <Select onValueChange={(v) => onChange(getByValue(v))}>
+        <Select
+          value={value && value.value}
+          onValueChange={(v) => onChange(getByValue(v))}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Anywhere" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {countries.map((country) => (
+              {getAll().map((country) => (
                 <SelectItem key={country.value} value={country.value}>
                   <span className="flex gap-2 items-center">
                     <span>{country.flag}</span>

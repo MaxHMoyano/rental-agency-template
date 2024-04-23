@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  LuHeart,
-  LuHome,
-  LuLogIn,
-  LuLogOut,
-  LuMap,
-  LuMenu,
-} from "react-icons/lu";
+import { Heart, Home, LogIn, LogOut, Map, Menu } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import Avatar from "@/components/Avatar";
@@ -35,7 +28,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
         <PopoverTrigger asChild>
           <div className="cursor-pointer p-3 rounded-md hover:bg-accent hover:text-accent-foreground transition">
             <div className="flex flex-row items-center justify-between gap-2">
-              <LuMenu />
+              <Menu />
               <div className="hidden md:block">
                 <Avatar src={currentUser?.image} />
               </div>
@@ -47,24 +40,24 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
             {!currentUser ? (
               <>
                 <MenuItem
-                  icon={LuLogIn}
+                  icon={LogIn}
                   label="Login"
                   onClick={loginModal.onOpen}
                 />
               </>
             ) : (
               <>
-                <MenuItem icon={LuMap} label="Trips" onClick={() => {}} />
-                <MenuItem icon={LuHeart} label="Favorites" onClick={() => {}} />
+                <MenuItem icon={Map} label="Trips" onClick={() => {}} />
+                <MenuItem icon={Heart} label="Favorites" onClick={() => {}} />
                 <hr />
                 <MenuItem
-                  icon={LuHome}
+                  icon={Home}
                   label="Properties"
                   onClick={rentModal.onOpen}
                 />
                 <hr />
                 <MenuItem
-                  icon={LuLogOut}
+                  icon={LogOut}
                   label="Logout"
                   onClick={() => {
                     signOut();

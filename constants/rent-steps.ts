@@ -3,6 +3,5 @@ export enum STEPS {
   LOCATION,
   INFORMATION,
   IMAGES,
-  DESCRIPTION,
   PRICE,
 }

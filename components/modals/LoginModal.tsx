@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import { useCallback, useState } from "react";
-import { LuLoader2 } from "react-icons/lu";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
@@ -20,10 +20,10 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { AiFillGithub } from "react-icons/ai";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -32,6 +32,7 @@ const formSchema = z.object({
 
 const LoginModal = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
@@ -59,7 +60,11 @@ const LoginModal = () => {
         redirect: false,
       });
       if (callBack?.ok) {
-        toast.success("Logged in");
+        toast({
+          title: "Logged in",
+          description: "You are now logged in",
+          variant: "success",
+        });
         router.refresh();
         loginModal.onClose();
       }
@@ -67,7 +72,11 @@ const LoginModal = () => {
         throw new Error(callBack?.error as string);
       }
     } catch (error) {
-      toast.error(`Error: ${error}`);
+      toast({
+        title: "Something went wrong",
+        description: `${error}`,
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +123,7 @@ const LoginModal = () => {
           />
           <DialogFooter>
             <Button size={"lg"} disabled={isLoading} type="submit">
-              {isLoading && <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Log in
             </Button>
           </DialogFooter>

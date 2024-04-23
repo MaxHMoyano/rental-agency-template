@@ -1,6 +1,6 @@
 "use client";
 
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/toaster";
 const ToasterProvider = () => {
   return <Toaster />;
 };

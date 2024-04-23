@@ -4,8 +4,7 @@ import axios from "axios";
 import * as z from "zod";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { LuLoader2 } from "react-icons/lu";
+import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { AiFillGithub } from "react-icons/ai";
 
@@ -24,6 +23,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginModal } from "@/hooks/useLoginModal";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -32,6 +32,7 @@ const formSchema = z.object({
 });
 
 const RegisterModal = () => {
+  const { toast } = useToast();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -58,7 +59,11 @@ const RegisterModal = () => {
       registerModal.onClose();
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      toast({
+        title: "An error occurred",
+        description: "Please try again later",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -125,7 +130,7 @@ const RegisterModal = () => {
           />
           <DialogFooter>
             <Button size={"lg"} disabled={isLoading} type="submit">
-              {isLoading && <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create User
             </Button>
           </DialogFooter>

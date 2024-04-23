@@ -1,5 +1,5 @@
 "use client";
-import { LuSearch } from "react-icons/lu";
+import { Search } from "lucide-react";
 const SearchBar = () => {
   return (
     <div className="border-[1px] w-full md:w-auto py-2 hover:shadow-md transition cursor-pointer rounded-md">
@@ -11,7 +11,7 @@ const SearchBar = () => {
         <div className="text-sm pl-6 pr-2 text-gray-600 flex flex-row items-center gap-3">
           <div className="hidden sm:block">How many?</div>
           <div className="p-2 text-white rounded-full bg-primary">
-            <LuSearch size={15} />
+            <Search size={15} />
           </div>
         </div>
       </div>

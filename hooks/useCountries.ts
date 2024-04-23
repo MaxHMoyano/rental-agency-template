@@ -17,14 +17,13 @@ const formattedCountries = countries.map((country) => ({
 }));
 
 const useCountries = () => {
-  const countries = formattedCountries;
-
+  const getAll = () => formattedCountries.slice(0, 10);
   const getByValue = (value: string): FormattedCountry | undefined => {
     return formattedCountries.find((item) => item.value === value);
   };
 
   return {
-    countries,
+    getAll,
     getByValue,
   };
 };
