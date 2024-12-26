@@ -37,7 +37,7 @@ const formSchema = z.object({
     title: z.string().min(1),
     description: z.string().min(1),
   }),
-  imageSrc: z.string().nullable(),
+  imageSrc: z.string().nullable().optional(),
   price: z.number(),
 });
 

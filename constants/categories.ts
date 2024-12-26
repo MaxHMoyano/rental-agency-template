@@ -1,16 +1,16 @@
-import { IconType } from "react-icons";
 import {
   Building2,
   Trees,
   Mountain,
   Palmtree,
   ThermometerSnowflake,
+  LucideIcon,
 } from "lucide-react";
 
 export interface Category {
   label: string;
   description: string;
-  icon: IconType;
+  icon: LucideIcon;
 }
 
 export const CATEGORIES = [

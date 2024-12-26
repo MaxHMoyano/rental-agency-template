@@ -1,13 +1,13 @@
-import { IconType } from "react-icons/lib";
 import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
+import { LucideIcon } from "lucide-react";
 
 export type CategoryProps = {
   label: string;
   description: string;
   selected?: boolean;
-  icon: IconType;
+  icon: LucideIcon;
 };
 
 const Category = ({ label, selected, icon: Icon }: CategoryProps) => {

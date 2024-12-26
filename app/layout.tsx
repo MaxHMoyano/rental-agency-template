@@ -33,7 +33,7 @@ export default async function RootLayout({
           <LoginModal />
           <Navbar currentUser={currentUser} />
         </ClientWrapper>
-        {children}
+        <div className="py-20">{children}</div>
       </body>
     </html>
   );
