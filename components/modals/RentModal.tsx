@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Form } from "../ui/form";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   category: z.string().min(1),
@@ -42,7 +43,9 @@ const formSchema = z.object({
 });
 
 const RentModal = () => {
+  const router = useRouter();
   const rentModal = useRentModal();
+
   const { toast } = useToast();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
@@ -103,6 +106,7 @@ const RentModal = () => {
         variant: "success",
       });
       form.reset();
+      router.refresh();
       setStep(STEPS.CATEGORY);
       rentModal.onClose();
     } catch (error) {

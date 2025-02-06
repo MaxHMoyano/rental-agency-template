@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
 
 import { useRegisterModal } from "@/hooks/useRegisterModal";
 import { Input } from "@/components/ui/input";
@@ -145,6 +145,16 @@ const RegisterModal = () => {
           >
             <AiFillGithub className="mr-2" />
             Sign in with Github
+          </Button>
+          <Button
+            variant={"ghost"}
+            size={"lg"}
+            onClick={() => {
+              signIn("google");
+            }}
+          >
+            <AiOutlineGoogle className="mr-2" />
+            Sign in with Google
           </Button>
           <div>
             <p>

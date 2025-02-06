@@ -1,5 +1,6 @@
 "use client";
 
+import useFavorite from "@/hooks/useFavorite";
 import { User } from "@prisma/client";
 import { Heart } from "lucide-react";
 
@@ -8,17 +9,26 @@ interface HeartButtonProps {
   currentUser?: User | null;
 }
 
-export const HeartButton: React.FC<HeartButtonProps> = () => {
-  const toggleHeart = () => {};
+export const HeartButton: React.FC<HeartButtonProps> = ({
+  listingId,
+  currentUser,
+}) => {
+  const { hasFavorited, toggleFavorite } = useFavorite({
+    listingId,
+    currentUser,
+  });
 
   return (
     <div
-      onClick={toggleHeart}
-      className="relative hover:opacity-80 transition cursor-pointer"
+      onClick={toggleFavorite}
+      className="relative hover:opacity-80 hover:scale-105 transition cursor-pointer"
     >
       <Heart
-        size={28}
-        className="text-white absolute -top-[2px] -right-[2px]"
+        size={24}
+        className={`
+          text-neutral-200
+          ${hasFavorited ? "fill-rose-500" : "fill-neutral-400/40"}
+          absolute -top-[2px] -right-[2px]`}
       />
     </div>
   );

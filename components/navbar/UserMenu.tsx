@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Home, LogIn, LogOut, Map, Menu } from "lucide-react";
+import { Calendar, Heart, Home, LogIn, LogOut, Map, Menu } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import Avatar from "@/components/Avatar";
@@ -47,14 +47,19 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
               </>
             ) : (
               <>
-                <MenuItem icon={Map} label="Trips" onClick={() => {}} />
-                <MenuItem icon={Heart} label="Favorites" onClick={() => {}} />
-                <hr />
                 <MenuItem
                   icon={Home}
-                  label="Properties"
+                  label="My properties"
                   onClick={rentModal.onOpen}
                 />
+                <hr />
+                <MenuItem icon={Heart} label="Favorites" onClick={() => {}} />
+                <MenuItem
+                  icon={Calendar}
+                  label="Reservations"
+                  onClick={() => {}}
+                />
+                <MenuItem icon={Map} label="Trips" onClick={() => {}} />
                 <hr />
                 <MenuItem
                   icon={LogOut}

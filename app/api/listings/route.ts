@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 
 import prisma from "@/lib/prismadb";
-import getCurrentUserFromSession from "@/util/getCurrentUserFromSession";
+import getCurrentUser from "@/actions/getCurrentUserFromSession";
 
 export async function POST(request: Request) {
-  const user = await getCurrentUserFromSession();
+  const currentUser = await getCurrentUser();
 
-  if (!user) {
+  if (!currentUser) {
     return NextResponse.json(
       {
         error: "You must be logged in to create a listing",
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       bathroomCount,
       imageSrc:
         "https://plus.unsplash.com/premium_photo-1684338795288-097525d127f0?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      userId: user.id,
+      userId: currentUser.id,
     },
   });
 

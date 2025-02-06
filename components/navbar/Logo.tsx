@@ -1,5 +1,15 @@
+import { useRouter } from "next/navigation";
+
 const Logo = () => {
-  return <h2 className="hidden md:block">Logo</h2>;
+  const router = useRouter();
+  return (
+    <h2
+      onClick={(e) => router.push("/")}
+      className="hidden md:block cursor-pointer"
+    >
+      Logo
+    </h2>
+  );
 };
 
 export default Logo;

@@ -21,7 +21,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
 import { useRegisterModal } from "@/hooks/useRegisterModal";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -139,6 +139,17 @@ const LoginModal = () => {
           >
             <AiFillGithub className="mr-2" />
             Sign in with Github
+          </Button>
+          <Button
+            variant={"ghost"}
+            size={"lg"}
+            onClick={(e) => {
+              e.preventDefault();
+              signIn("google");
+            }}
+          >
+            <AiOutlineGoogle className="mr-2" />
+            Sign in with Google
           </Button>
           <div>
             <p>
